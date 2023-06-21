@@ -1,8 +1,9 @@
 <?php
 // import
 use util\CardGenerator;
+
 include_once "util/CardGenerator.php";
-include_once 'db.php';
+include_once 'DataBase.php';
 ?>
 
 <!doctype html>
@@ -14,21 +15,20 @@ include_once 'db.php';
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Animal Products E-commerce</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
 </head>
 <body>
 
     <div class="container">
         <h1>Animal Products</h1>
         <?php
-        
-        $databaseData = db::getData();
-        
-        $cards = CardGenerator::generateCards($databaseData);
-
-        echo $cards; // Вывод сгенерированных карточек на странице
+            $cardsData = DataBase::getCardsData();
+            $cards = CardGenerator::generateCardsGrid($cardsData, 4, 4);
+            echo $cards;
         ?>
     </div>
-    
     
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
