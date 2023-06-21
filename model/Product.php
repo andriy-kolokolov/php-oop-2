@@ -24,7 +24,7 @@ class Product {
         return $this->category;
     }
 
-    public function getPrice(): int {
+    public function getPrice(): float {
         return $this->price;
     }
 

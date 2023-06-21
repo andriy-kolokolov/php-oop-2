@@ -1,7 +1,8 @@
 <?php
-
-
-
+// import
+use util\CardGenerator;
+include_once "util/CardGenerator.php";
+include_once 'db.php';
 ?>
 
 <!doctype html>
@@ -18,7 +19,14 @@
 
     <div class="container">
         <h1>Animal Products</h1>
+        <?php
+        
+        $databaseData = db::getData();
+        
+        $cards = CardGenerator::generateCards($databaseData);
 
+        echo $cards; // Вывод сгенерированных карточек на странице
+        ?>
     </div>
     
     
