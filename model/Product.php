@@ -2,6 +2,8 @@
 
 use product\Type;
 
+require 'product/Type.php';
+
 class Product {
     private string $name;
     private Type $type;

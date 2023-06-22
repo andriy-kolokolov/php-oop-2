@@ -1,9 +1,13 @@
 <?php
 // import
+
+use dao\ProductDAO;
 use util\CardGenerator;
 
-include_once "util/CardGenerator.php";
-include_once 'DataBase.php';
+require 'dao/ProductDAO.php';
+require 'util/CardGenerator.php';
+require 'util/DatabaseUtil.php';
+
 ?>
 
 <!doctype html>
@@ -14,7 +18,6 @@ include_once 'DataBase.php';
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Animal Products E-commerce</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
           integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -24,7 +27,10 @@ include_once 'DataBase.php';
     <div class="container">
         <h1>Animal Products</h1>
         <?php
-            $cardsData = DataBase::getCardsData();
+            $dbUtil = new DatabaseUtil("localhost:8889", "root", "root", "animals_shop");
+            $dbUtil->connect();
+            $productDAO = new ProductDAO($dbUtil);
+            $cardsData = $productDAO->getAllProducts();
             $cards = CardGenerator::generateCardsGrid($cardsData, 4, 4);
             echo $cards;
         ?>
