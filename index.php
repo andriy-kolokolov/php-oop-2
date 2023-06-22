@@ -7,6 +7,7 @@ use util\CardGenerator;
 require 'dao/ProductDAO.php';
 require 'util/CardGenerator.php';
 require 'util/DatabaseUtil.php';
+require 'ProductsArrayData.php';
 
 ?>
 
@@ -27,12 +28,30 @@ require 'util/DatabaseUtil.php';
     <div class="container">
         <h1>Animal Products</h1>
         <?php
+            // create connection and DAO object
             $dbUtil = new DatabaseUtil("localhost:8889", "root", "root", "animals_shop");
             $dbUtil->connect();
             $productDAO = new ProductDAO($dbUtil);
+            // drop if exists and recreate table FOR TESTING
+            $productDAO->dropProductsTable();
+            $productDAO->createProductsTable();
+            // get product objects from array
+            $products = ProductsArrayData::getCardsData();
+            //insert product objects in database
+            foreach ($products as $product) {
+                $productDAO->createProduct(
+                        $product->getName(), 
+                        $product->getType()->getName(),
+                        $product->getCategory()->getName(),
+                        $product->getPrice(),
+                        $product->getDescription());
+            }
+            // get products from database
             $cardsData = $productDAO->getAllProducts();
+            // generate grid using product object data
             $cards = CardGenerator::generateCardsGrid($cardsData, 4, 4);
             echo $cards;
+            $dbUtil->close();
         ?>
     </div>
     
